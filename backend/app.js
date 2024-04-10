@@ -7,8 +7,11 @@ const cors = require("cors");
 const csurf = require("csurf");
 const { isProduction } = require("./config/keys");
 
+
+
 // IMPORT MODELS
 require("./models/Users");
+require("./models/Tweet")
 require("./config/passport");
 
 // IMPOIRT ROUTES FROM API

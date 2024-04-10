@@ -4,6 +4,31 @@ const bcrypt = require("bcryptjs");
 const mongoose = require("mongoose");
 const User = mongoose.model("User");
 
+const jwt = require("jsonwebtoken");
+const { secretOrKey } = require("./keys");
+
+const { Strategy: JwtStrategy, ExtractJwt } = require("passport-jwt");
+
+const options = {};
+options.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
+options.secretOrKey = secretOrKey;
+
+passport.use(
+    new JwtStrategy(options, async (jwtPayload, done) => {
+        try {
+            const user = await User.findById(jwtPayload._id);
+            if (user) {
+                // return the user to the frontend
+                return done(null, user);
+            }
+            // return false since there is no user
+            return done(null, false);
+        } catch (err) {
+            done(err);
+        }
+    })
+);
+
 passport.use(
     new LocalStrategy(
         {
@@ -26,3 +51,38 @@ passport.use(
         }
     )
 );
+
+const makeUser = (user) => {
+    const userInfo = {
+        _id: user.id,
+        username: user.username,
+        email: user.email,
+    };
+
+    return userInfo;
+};
+
+exports.loginUser = async function (user) {
+    const userInfo = makeUser(user);
+
+    const token = await jwt.sign(userInfo, secretOrKey, { expiresIn: 3600 });
+
+    return {
+        user: userInfo,
+        token,
+    };
+};
+
+exports.requireUser = passport.authenticate("jwt", { session: false });
+
+exports.restoreUser = (req, res, next) => {
+    return passport.authenticate(
+        "jwt",
+        { session: false },
+        function (err, user) {
+            if (err) return next(err);
+            if (user) req.user = user;
+            next();
+        }
+    )(req, res, next);
+};
