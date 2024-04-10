@@ -7,6 +7,9 @@ const cors = require("cors");
 const csurf = require("csurf");
 const { isProduction } = require("./config/keys");
 
+// IMPORT MODELS
+require("./models/Users");
+
 // IMPOIRT ROUTES FROM API
 const usersRouter = require("./routes/api/users");
 const tweetsRouter = require("./routes/api/tweets");
@@ -27,6 +30,21 @@ if (!isProduction) {
     app.use(cors());
 }
 
+app.use(
+    csurf({
+        cookie: {
+            secure: isProduction,
+            sameSite: isProduction && "Lax",
+            httpOnly: true,
+        },
+    })
+);
+
+//ATTACH EXPRESS ROUTERS
+app.use("/api/users", usersRouter);
+app.use("/api/tweets", tweetsRouter);
+app.use("/api/csrf", csrfRouter);
+
 app.use((req, res, next) => {
     const err = new Error("Not Found");
     err.statusCode = 404;
@@ -45,20 +63,5 @@ app.use((err, req, res, next) => {
         errors: err.errors,
     });
 });
-
-app.use(
-    csurf({
-        cookie: {
-            secure: isProduction,
-            sameSite: isProduction && "Lax",
-            httpOnly: true,
-        },
-    })
-);
-
-//ATTACH EXPRESS ROUTERS
-app.use("/api/users", usersRouter);
-app.use("/api/tweets", tweetsRouter);
-app.use("/api/csrf", csrfRouter);
 
 module.exports = app;
