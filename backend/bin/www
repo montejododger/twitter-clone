@@ -4,7 +4,7 @@
  * Module dependencies.
  */
 
-var app = require("../app");
+const app = require("../app");
 const mongoose = require("mongoose");
 const { mongoURI: db } = require("../config/keys");
 
@@ -13,13 +13,13 @@ const debug = require("debug");
 const serverLogger = debug("backend:server");
 const dbLogger = debug("backend:mongodb");
 
-var http = require("http");
+const http = require("http");
 
 /**
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || "5000");
+const port = normalizePort(process.env.PORT || "5000");
 app.set("port", port);
 
 /**

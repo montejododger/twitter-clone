@@ -17,7 +17,7 @@ router.post("/register", async (req, res, next) => {
         $or: [{ email: req.body.email }, { username: req.body.username }],
     });
 
-    if (!user) {
+    if (user) {
         // Throw a 400 error if the email address and/or username already exists
         const err = new Error("Validation Error");
         err.statusCode = 400;

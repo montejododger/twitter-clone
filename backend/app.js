@@ -17,18 +17,14 @@ const csrfRouter = require("./routes/api/csrf");
 
 const app = express();
 
+//  USE MIDDLEWARE
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-// ADD THIS SECURITY MIDDLEWARE
-if (!isProduction) {
-    // Enable CORS only in development because React will be on the React
-    // development server (http://localhost:3000). (In production, the Express
-    // server will serve the React files statically.)
-    app.use(cors());
-}
+// CORS MIDDLEWARE
+if (!isProduction) app.use(cors());
 
 app.use(
     csurf({
@@ -45,14 +41,15 @@ app.use("/api/users", usersRouter);
 app.use("/api/tweets", tweetsRouter);
 app.use("/api/csrf", csrfRouter);
 
+//  HANDLING 404 NOT FOUND MIDDLEWARE
 app.use((req, res, next) => {
     const err = new Error("Not Found");
     err.statusCode = 404;
     next(err);
 });
 
+//  ERROR HANDLING MIDDLEWARE
 const serverErrorLogger = debug("backend:error");
-
 app.use((err, req, res, next) => {
     serverErrorLogger(err);
     const statusCode = err.statusCode || 500;
