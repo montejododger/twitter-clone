@@ -9,6 +9,7 @@ const { isProduction } = require("./config/keys");
 
 // IMPORT MODELS
 require("./models/Users");
+require("./config/passport");
 
 // IMPOIRT ROUTES FROM API
 const usersRouter = require("./routes/api/users");
@@ -16,12 +17,15 @@ const tweetsRouter = require("./routes/api/tweets");
 const csrfRouter = require("./routes/api/csrf");
 
 const app = express();
+const passport = require("passport");
 
 //  USE MIDDLEWARE
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+
+app.use(passport.initialize());
 
 // CORS MIDDLEWARE
 if (!isProduction) app.use(cors());
