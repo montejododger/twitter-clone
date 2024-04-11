@@ -1,13 +1,11 @@
-// import ReactDOM from "react-dom/client";
-// import ReactDOM from "react-dom";
 import React from "react";
-import App from "./App";
+import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
-import store from "./store/store";
 
+import App from "./App";
+import store from "./store/store.jsx";
 
 function Root() {
     return (
@@ -19,11 +17,18 @@ function Root() {
     );
 }
 
+const RenderApplication = () => {
+    const rootElement = document.getElementById("root");
+    if (rootElement) {
+        const root = createRoot(rootElement);
+        root.render(
+            <StrictMode>
+                <Root />
+            </StrictMode>
+        );
+    } else {
+        console.error("Failed to find the root element");
+    }
+};
 
-const rootElement = document.getElementById("root");
-if (rootElement) {
-    const root = createRoot(rootElement);
-    root.render(<Root />);
-} else {
-    console.error("Failed to find the root element");
-}
+RenderApplication();

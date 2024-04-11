@@ -10,14 +10,8 @@ const { isProduction } = require("../../config/keys");
 
 const validateRegisterInput = require("../../validations/register");
 const validateLoginInput = require("../../validations/login");
-/* GET users listing. */
-// router.get("/", function (req, res, next) {
-//     // res.send('respond with a resource');
-//     res.json({
-//         message: "GET /api/users",
-//     });
-// });
 
+//! get current user
 router.get("/current", restoreUser, (req, res) => {
     if (!isProduction) {
         const csrfToken = req.csrfToken();

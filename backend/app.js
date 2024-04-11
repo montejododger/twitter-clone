@@ -7,11 +7,9 @@ const cors = require("cors");
 const csurf = require("csurf");
 const { isProduction } = require("./config/keys");
 
-
-
 // IMPORT MODELS
 require("./models/Users");
-require("./models/Tweet")
+require("./models/Tweet");
 require("./config/passport");
 
 // IMPOIRT ROUTES FROM API
@@ -31,7 +29,11 @@ app.use(cookieParser());
 app.use(passport.initialize());
 
 // CORS MIDDLEWARE
-if (!isProduction) app.use(cors());
+const corsOptions = {
+    origin: "http://localhost:3000", // or your client's origin
+    credentials: true, // This is important to include cookies
+};
+if (!isProduction) app.use(cors(corsOptions));
 
 app.use(
     csurf({
