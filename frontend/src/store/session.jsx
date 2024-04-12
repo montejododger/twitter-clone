@@ -68,7 +68,7 @@ export const logout = () => (dispatch) => {
 };
 
 const initialState = {
-    currentUser: undefined,
+    user: undefined,
 };
 
 const nullErrors = null;
@@ -88,9 +88,9 @@ export const sessionErrorsReducer = (state = nullErrors, action) => {
 const sessionReducer = (state = initialState, action) => {
     switch (action.type) {
         case RECEIVE_CURRENT_USER:
-            return { currentUser: action.user };
+            return { ...state, user: action.user };
         case RECEIVE_USER_LOGOUT:
-            return initialState;
+            return { ...initialState };
         default:
             return state;
     }

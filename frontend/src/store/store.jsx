@@ -2,11 +2,13 @@ import { configureStore } from "@reduxjs/toolkit";
 import logger from "redux-logger";
 
 import sessionReducer from "./session.jsx";
-import { sessionErrorsReducer } from "./session.jsx";
+import tweetsReducer from "./tweet.jsx";
+import errorsReducer from "./errors.jsx";
 
 const reducer = {
     session: sessionReducer,
-    sessionErrorsReducer,
+    tweets: tweetsReducer,
+    errors: errorsReducer,
 };
 
 export const store = configureStore({
