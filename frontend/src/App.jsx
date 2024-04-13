@@ -15,8 +15,6 @@ import Tweets from "./components/Tweets/Tweets";
 import Profile from "./components/Profile/Profile";
 import TweetCompose from "./components/Tweets/TweetCompose";
 
-
-
 import { getCurrentUser } from "./store/session.jsx";
 
 function App() {
@@ -24,6 +22,8 @@ function App() {
     const dispatch = useDispatch();
 
     useEffect(() => {
+        const token = localStorage.getItem("jwtToken");
+        // if (!token)
         dispatch(getCurrentUser()).then(() => setLoaded(true));
     }, [dispatch]);
 

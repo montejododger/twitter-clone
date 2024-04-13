@@ -7,8 +7,6 @@ async function jwtFetch(url, options = {}) {
 
     if (jwtToken) options.headers["Authorization"] = `Bearer ${jwtToken}`;
 
-    // console.log(jwtToken);
-    // console.log(getCookie("CSRF-TOKEN"));
 
     if (options.method.toUpperCase() !== "GET") {
         options.headers["Content-Type"] =

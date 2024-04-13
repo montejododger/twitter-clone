@@ -1,31 +1,31 @@
 import { useEffect } from "react";
-import { createSelector } from "reselect";
 import { useDispatch, useSelector } from "react-redux";
-import { clearTweetErrors, fetchTweets } from "../../store/tweet";
+import { clearTweetErrors, fetchTweets, allTweets } from "../../store/tweet";
 import TweetBox from "./TweetBox";
-
-const selectTweetsState = (state) => state.tweets.all;
-const tweets = createSelector(
-    [selectTweetsState], // Input selectors
-    (tweets) => Object.values(tweets) // Output selector
-);
 
 function Tweets() {
     const dispatch = useDispatch();
-    const allTweets = useSelector(tweets);
+    const tweets = useSelector(allTweets);
+    const currentUser = useSelector((state) => state.session.user);
 
     useEffect(() => {
         dispatch(fetchTweets());
         return () => dispatch(clearTweetErrors());
     }, [dispatch]);
 
-    if (allTweets.length === 0) return <div>There are no Tweets</div>;
+    if (tweets.length === 0) return <div>There are no Tweets</div>;
 
+    // console.log(currentUser);
     return (
         <>
             <h2>All Tweets</h2>
-            {allTweets.map((tweet) => (
-                <TweetBox key={tweet._id} tweet={tweet} />
+            {tweets.map((tweet) => (
+                <TweetBox
+                    key={tweet._id}
+                    tweet={tweet}
+                    currentUser={currentUser}
+                    source="ALL"
+                />
             ))}
         </>
     );

@@ -22,9 +22,9 @@ const RenderApplication = () => {
     if (rootElement) {
         const root = createRoot(rootElement);
         root.render(
-            <StrictMode>
-                <Root />
-            </StrictMode>
+            // <StrictMode>
+            <Root />
+            // </StrictMode>
         );
     } else {
         console.error("Failed to find the root element");

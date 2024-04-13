@@ -4,7 +4,7 @@ import { tweetErrorsReducer } from "./tweet";
 
 const errorsReducer = combineReducers({
     session: sessionErrorsReducer,
-    tweet: tweetErrorsReducer,
+    tweets: tweetErrorsReducer,
 });
 
 export default errorsReducer;

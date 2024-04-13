@@ -71,4 +71,24 @@ router.post("/", requireUser, validateTweetInput, async (req, res, next) => {
     }
 });
 
+//! Grab the id of the tweet from the url
+//! Grab the tweet from the database with the id
+//! if not tweet return 404 message
+//! remove tweet
+//! return 204 message
+
+router.delete("/:id", requireUser, async (req, res, next) => {
+    try {
+        const tweetId = req.params.id;
+
+        const tweet = Tweet.findById(tweetId);
+        if (!tweet) return res.status(404).json({ message: "Tweet not found" });
+
+        await tweet.deleteOne();
+        return res.status(204).json({ message: "Tweet deleted successfully" });
+    } catch (err) {
+        next(err);
+    }
+});
+
 module.exports = router;

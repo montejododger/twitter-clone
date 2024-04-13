@@ -13,7 +13,7 @@ function TweetCompose() {
 
     useEffect(() => {
         return () => dispatch(clearTweetErrors());
-    }, [dispatch]);
+    }, [newTweet, dispatch]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -22,6 +22,8 @@ function TweetCompose() {
     };
 
     const update = (e) => setText(e.currentTarget.value);
+
+    // debugger
 
     return (
         <>
@@ -38,11 +40,19 @@ function TweetCompose() {
             </form>
             <div className="tweet-preview">
                 <h3>Tweet Preview</h3>
-                {text ? <TweetBox tweet={{ text, author }} /> : undefined}
+                {text ? (
+                    <TweetBox tweet={{ text, author }} currentUser={author} />
+                ) : undefined}
             </div>
             <div className="previous-tweet">
                 <h3>Previous Tweet</h3>
-                {newTweet ? <TweetBox tweet={newTweet} /> : undefined}
+                {newTweet ? (
+                    <TweetBox
+                        tweet={newTweet}
+                        currentUser={author}
+                        source="NEW"
+                    />
+                ) : undefined}
             </div>
         </>
     );

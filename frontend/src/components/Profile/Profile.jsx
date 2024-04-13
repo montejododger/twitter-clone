@@ -1,23 +1,23 @@
-import { useEffect, useMemo } from "react";
-import { createSelector } from "reselect";
+import { useEffect } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
-import { fetchUserTweets, clearTweetErrors } from "../../store/tweet";
+import {
+    fetchUserTweets,
+    clearTweetErrors,
+    selectUserTweets,
+} from "../../store/tweet";
 
 import TweetBox from "../Tweets/TweetBox";
-
-const selectUserTweets = (state) => state.tweets.user[0];
-const tweets = createSelector([selectUserTweets], (tweets) =>
-    Object.values(tweets)
-);
 
 function Profile() {
     const dispatch = useDispatch();
 
     const currentUser = useSelector((state) => state.session.user);
-    const userTweets = createSelector(tweets);
+    const userTweets = useSelector(selectUserTweets);
 
-    console.log(userTweets);
+    // console.log(userTweets);
+    // console.log(currentUser);
+
     useEffect(() => {
         dispatch(fetchUserTweets(currentUser._id));
         return () => dispatch(clearTweetErrors());
@@ -30,7 +30,12 @@ function Profile() {
             <>
                 <h2>All of {currentUser.username}'s Tweets</h2>
                 {userTweets.map((tweet) => (
-                    <TweetBox key={tweet._id} tweet={tweet} />
+                    <TweetBox
+                        key={tweet._id}
+                        tweet={tweet}
+                        currentUser={currentUser}
+                        source="USER"
+                    />
                 ))}
             </>
         );
