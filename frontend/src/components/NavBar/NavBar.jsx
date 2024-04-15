@@ -15,11 +15,22 @@ function NavBar() {
     const getLinks = () => {
         if (loggedIn) {
             return (
-                <div className="links-nav">
-                    <Link to={"/tweets"}>All Tweets</Link>
-                    <Link to={"/profile"}>Profile</Link>
-                    <Link to={"/tweets/new"}>Write a Tweet</Link>
-                    <button onClick={logoutUser}>Logout</button>
+                <div className="flex flex-row">
+                    <Link className="basis-1/4 text-center" to={"/tweets"}>
+                        All Tweets
+                    </Link>
+                    <Link className="basis-1/4 text-center" to={"/profile"}>
+                        Profile
+                    </Link>
+                    <Link className="basis-1/4 text-center" to={"/tweets/new"}>
+                        Write a Tweet
+                    </Link>
+                    <button
+                        className="basis-1/4 text-center"
+                        onClick={logoutUser}
+                    >
+                        Logout
+                    </button>
                 </div>
             );
         } else {
