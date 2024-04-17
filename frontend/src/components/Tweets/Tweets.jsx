@@ -18,15 +18,17 @@ function Tweets() {
     // console.log(currentUser);
     return (
         <>
-            <h2>All Tweets</h2>
-            {tweets.map((tweet) => (
-                <TweetBox
-                    key={tweet._id}
-                    tweet={tweet}
-                    currentUser={currentUser}
-                    source="ALL"
-                />
-            ))}
+            <h2 className="flex justify-center font-bold font">All Tweets</h2>
+            <div className="">
+                {tweets.map((tweet) => (
+                    <TweetBox
+                        key={tweet._id}
+                        tweet={tweet}
+                        currentUser={currentUser}
+                        source="ALL"
+                    />
+                ))}
+            </div>
         </>
     );
 }
